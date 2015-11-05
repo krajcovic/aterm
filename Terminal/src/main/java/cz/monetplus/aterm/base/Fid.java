@@ -4,6 +4,7 @@ package cz.monetplus.aterm.base;
  * Created by krajcovic on 11/5/15.
  */
 public class Fid {
+
     private String fid;
 
     private String value;

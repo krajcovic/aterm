@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".IdleActivity"
+            android:name=".CreateMessageActivity"
             android:label="@string/title_activity_idle"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

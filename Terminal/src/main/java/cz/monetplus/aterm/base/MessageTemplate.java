@@ -24,7 +24,7 @@ public class MessageTemplate {
 
     /*
 
-     */
+         */
     public String getMessageName() {
         return messageName;
     }
@@ -40,5 +40,10 @@ public class MessageTemplate {
 
     public void setFidList(List<Fid> fidList) {
         this.fidList = fidList;
+    }
+
+    public void clear() {
+        this.getFidList().clear();
+        this.setMessageName("");
     }
 }

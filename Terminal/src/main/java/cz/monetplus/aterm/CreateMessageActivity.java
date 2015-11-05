@@ -9,12 +9,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import cz.monetplus.aterm.base.Fid;
 import cz.monetplus.aterm.adapters.FidArrayAdapter;
 import cz.monetplus.aterm.base.MessageTemplate;
+import cz.monetplus.aterm.database.control.SqlControl;
 
-public class IdleActivity extends Activity {
+public class CreateMessageActivity extends Activity {
 
     private MessageTemplate messageTemplate = new MessageTemplate();
 
@@ -29,13 +31,16 @@ public class IdleActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idle);
 
+        SqlControl sqlControl = new SqlControl(getApplicationContext());
+        sqlControl.dropTables();
+
         etNewFid = (EditText) findViewById(R.id.etNewFid);
         etNewValue = (EditText) findViewById(R.id.etNewValue);
         etNewMessageName = (EditText) findViewById(R.id.etNewMessageName);
 
-        String[] values = new String[]{"Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2"};
+//        String[] values = new String[]{"Android", "iPhone", "WindowsMobile",
+//                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
+//                "Linux", "OS/2"};
 
         lvFidList = (ListView) findViewById(R.id.lvFids);
 
@@ -76,18 +81,30 @@ public class IdleActivity extends Activity {
             }
         });
 
+        Button butAddMessage = (Button) findViewById(R.id.butSaveMessage);
+        butAddMessage.setOnClickListener(new Button.OnClickListener() {
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+            @Override
+            public void onClick(View v) {
+                if(etNewMessageName.getText().length() > 0) {
+                    SqlControl sqlControl = new SqlControl(getApplicationContext());
+                    messageTemplate.setMessageName(etNewMessageName.getText().toString());
+                    long messageId = sqlControl.insert(messageTemplate);
+                    for (Fid fid :
+                            messageTemplate.getFidList()) {
+                        sqlControl.insert(messageId, fid);
+                    }
+
+                    etNewFid.getText().clear();
+                    etNewValue.getText().clear();
+                    etNewMessageName.getText().clear();
+                    messageTemplate.clear();
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(CreateMessageActivity.this, "Fill name of message.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 }
