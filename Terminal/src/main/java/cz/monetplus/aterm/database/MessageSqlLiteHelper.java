@@ -13,9 +13,11 @@ public class MessageSqlLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "messages";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_DESCRIPTION = "description";
 
     // private static final String DATABASE_NAME = "fids.db";
     private static final int DATABASE_VERSION = 1;
+
 
     public MessageSqlLiteHelper(Context context, String databaseName) {
         super(context, databaseName, null, DATABASE_VERSION);
@@ -25,7 +27,8 @@ public class MessageSqlLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table "
             + TABLE_NAME + "(" + COLUMN_ID
             + " integer primary key autoincrement, "
-            + COLUMN_NAME + " text not null);";
+            + COLUMN_NAME + " text not null,"
+            + COLUMN_DESCRIPTION + " text not null);";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -38,6 +41,7 @@ public class MessageSqlLiteHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
         onCreate(db);
 
     }

@@ -27,7 +27,7 @@ public class FidSqlLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table "
             + TABLE_NAME + "(" + COLUMN_ID
             + " integer primary key autoincrement, "
-            + COLUMN_MESSAGE_ID + " integer not null"
+            + COLUMN_MESSAGE_ID + " integer not null,"
             + COLUMN_FID + " text not null,"
             + COLUMN_VALUE + " text not null);";
 
@@ -42,6 +42,7 @@ public class FidSqlLiteHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
         onCreate(db);
 
     }

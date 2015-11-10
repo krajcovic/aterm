@@ -1,9 +1,10 @@
 package cz.monetplus.aterm;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,25 +15,26 @@ import android.widget.Toast;
 import cz.monetplus.aterm.base.Fid;
 import cz.monetplus.aterm.adapters.FidArrayAdapter;
 import cz.monetplus.aterm.base.MessageTemplate;
-import cz.monetplus.aterm.database.control.SqlControl;
+import cz.monetplus.aterm.database.control.SqlHandlerControl;
 
-public class CreateMessageActivity extends Activity {
+public class CreateMessageActivity extends AppCompatActivity {
 
-    private MessageTemplate messageTemplate = new MessageTemplate();
+    private MessageTemplate messageTemplate;
 
     private EditText etNewFid;
     private EditText etNewValue;
     private EditText etNewMessageName;
 
-    private ListView lvFidList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_idle);
+        setContentView(R.layout.activity_create_message);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        SqlControl sqlControl = new SqlControl(getApplicationContext());
-        sqlControl.dropTables();
+        messageTemplate = new MessageTemplate();
+
+        SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
 
         etNewFid = (EditText) findViewById(R.id.etNewFid);
         etNewValue = (EditText) findViewById(R.id.etNewValue);
@@ -42,10 +44,10 @@ public class CreateMessageActivity extends Activity {
 //                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
 //                "Linux", "OS/2"};
 
-        lvFidList = (ListView) findViewById(R.id.lvFids);
+        ListView lvFidList = (ListView) findViewById(R.id.lvFids);
 
         // use your custom layout
-        final FidArrayAdapter<String> adapter = new FidArrayAdapter<String>(this,
+        final FidArrayAdapter<String> adapter = new FidArrayAdapter<>(this,
                 R.layout.fid_item, messageTemplate.getFidList());
         lvFidList.setAdapter(adapter);
         lvFidList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -65,7 +67,6 @@ public class CreateMessageActivity extends Activity {
                     }
                 }).show();
 
-                ;
                 return false;
             }
         });
@@ -87,8 +88,8 @@ public class CreateMessageActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(etNewMessageName.getText().length() > 0) {
-                    SqlControl sqlControl = new SqlControl(getApplicationContext());
-                    messageTemplate.setMessageName(etNewMessageName.getText().toString());
+                    SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
+                    messageTemplate.setName(etNewMessageName.getText().toString());
                     long messageId = sqlControl.insert(messageTemplate);
                     for (Fid fid :
                             messageTemplate.getFidList()) {

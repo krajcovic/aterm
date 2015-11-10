@@ -34,8 +34,6 @@ public class FidArrayAdapter<T> extends ArrayAdapter<Fid> {
         View rowView = inflater.inflate(R.layout.fid_item, parent, false);
         TextView tvFid = (TextView) rowView.findViewById(R.id.tvFid);
         TextView tvValue = (TextView) rowView.findViewById(R.id.tvValue);
-//        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-//        textView.setText(values[position]);
 
         tvFid.setText("FID:" + fidList.get(position).getFid());
         tvValue.setText("Value:" + fidList.get(position).getValue());
