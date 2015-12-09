@@ -42,6 +42,10 @@ public class FidArrayAdapter<T> extends ArrayAdapter<Fid> {
         return rowView;
     }
 
+    public void clearList() {
+        this.fidList.clear();
+    }
+
 
 
     //    private static List<String> getFidList(Map<String, String> fidMap) {

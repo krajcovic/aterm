@@ -14,6 +14,10 @@ public class MessageSqlLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_TYPE = "type";
+    public static final String COLUMN_SUBTYPE = "subtype";
+    public static final String COLUMN_CODE = "trans_code";
+    public static final String COLUMN_FLAG1 = "flag1";
 
     // private static final String DATABASE_NAME = "fids.db";
     private static final int DATABASE_VERSION = 1;
@@ -28,7 +32,12 @@ public class MessageSqlLiteHelper extends SQLiteOpenHelper {
             + TABLE_NAME + "(" + COLUMN_ID
             + " integer primary key autoincrement, "
             + COLUMN_NAME + " text not null,"
-            + COLUMN_DESCRIPTION + " text not null);";
+            + COLUMN_DESCRIPTION + " text not null,"
+            + COLUMN_TYPE + " text not null,"
+            + COLUMN_SUBTYPE + " text not null,"
+            + COLUMN_CODE + " text not null,"
+            + COLUMN_FLAG1 + " text not null"
+            + ");";
 
     @Override
     public void onCreate(SQLiteDatabase db) {

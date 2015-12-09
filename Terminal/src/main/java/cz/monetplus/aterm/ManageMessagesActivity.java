@@ -25,6 +25,7 @@ public class ManageMessagesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
+//        sqlControl.upgradeTables();
 
         lvMessageList = (ListView) findViewById(R.id.lvMessages);
 

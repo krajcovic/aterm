@@ -25,13 +25,42 @@ public class MessageTemplate {
      */
     private List<Fid> fidList;
 
+    /**
+     * Type of message.
+     */
+    private Character type;
+
+    /**
+     * Subtype of message.
+     */
+    private Character subType;
+
+    /**
+     * Transaction code.
+     */
+    private Integer code;
+
+    /**
+     * precessing flag
+     */
+    private Integer flag;
+
+    public MessageTemplate(String name) {
+        fidList = new ArrayList<Fid>();
+//        clear();
+    }
+
 
     /**
      *
      */
-    public MessageTemplate() {
+    public MessageTemplate(String name, Character type, Character subType, Integer code, Integer flag) {
         fidList = new ArrayList<Fid>();
-        clear();
+        this.setType(type);
+        this.setSubType(subType);
+        this.setCode(code);
+        this.setFlag(flag);
+//        clear();
     }
 
     /**
@@ -68,11 +97,11 @@ public class MessageTemplate {
     /**
      *
      */
-    public void clear() {
-        this.getFidList().clear();
-        this.setName("");
-        this.setDescription("Description");
-    }
+//    public void clear() {
+//        this.getFidList().clear();
+//        this.setName("Undefined");
+//        this.setDescription("Description");
+//    }
 
     /**
      * @return
@@ -100,5 +129,37 @@ public class MessageTemplate {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Character getType() {
+        return type;
+    }
+
+    public void setType(Character type) {
+        this.type = type;
+    }
+
+    public Character getSubType() {
+        return subType;
+    }
+
+    public void setSubType(Character subType) {
+        this.subType = subType;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 }

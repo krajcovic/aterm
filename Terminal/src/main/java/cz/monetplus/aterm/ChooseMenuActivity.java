@@ -6,8 +6,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import cz.monetplus.aterm.database.control.SqlHandlerControl;
 
@@ -20,8 +25,10 @@ public class ChooseMenuActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
-//        sqlControl.upgradeTables();
+        // Create-upgrade all tables
+        SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
+        sqlControl.upgradeTables();
+        sqlControl.insertTestData();
 
         Button butCreateMessage = (Button) findViewById(R.id.butCreateMessage);
         butCreateMessage.setOnClickListener(new View.OnClickListener() {
@@ -51,4 +58,35 @@ public class ChooseMenuActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        Toast.makeText(getApplicationContext(), "Context", Toast.LENGTH_LONG).show();
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        Toast.makeText(getApplicationContext(), "Options", Toast.LENGTH_LONG).show();
+//        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_choose, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.help:
+//                showHelp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,9 @@ import cz.monetplus.aterm.database.MessageSqlLiteHelper;
  * Created by krajcovic on 11/5/15.
  */
 public class SqlHandlerControl {
+
+    private final static String TAG = "SqlHandlerControl";
+
     private final static String DATABASE_NAME = "aterm.db";
 
     FidSqlLiteHelper fidSqlLiteHelper;
@@ -35,6 +39,10 @@ public class SqlHandlerControl {
         ContentValues values = new ContentValues();
         values.put(MessageSqlLiteHelper.COLUMN_NAME, messageTemplate.getName());
         values.put(MessageSqlLiteHelper.COLUMN_DESCRIPTION, messageTemplate.getDescription());
+        values.put(MessageSqlLiteHelper.COLUMN_TYPE, messageTemplate.getType().toString());
+        values.put(MessageSqlLiteHelper.COLUMN_SUBTYPE, messageTemplate.getSubType().toString());
+        values.put(MessageSqlLiteHelper.COLUMN_CODE, messageTemplate.getCode());
+        values.put(MessageSqlLiteHelper.COLUMN_FLAG1, messageTemplate.getFlag());
         // values.put(FeedEntry.COLUMN_NAME_CONTENT, content);
 
         // Insert the new row, returning the primary key value of the new row
@@ -71,6 +79,15 @@ public class SqlHandlerControl {
         return newRowId;
     }
 
+    public void insertTestData() {
+        MessageTemplate messageTemplate = new MessageTemplate("Test", 'F', 'O', 0, 0);
+        messageTemplate.setDescription("Testovaci data.");
+
+        long messageId = insert(messageTemplate);
+        insert(messageId, new Fid("A", "1"));
+        insert(messageId, new Fid("B", "2"));
+    }
+
     public void upgradeTables() {
         // Gets the data repository in write mode
         SQLiteDatabase db = messageSqlLiteHelper.getWritableDatabase();
@@ -95,7 +112,11 @@ public class SqlHandlerControl {
         String[] projection = {
                 MessageSqlLiteHelper.COLUMN_ID,
                 MessageSqlLiteHelper.COLUMN_NAME,
-                MessageSqlLiteHelper.COLUMN_DESCRIPTION
+                MessageSqlLiteHelper.COLUMN_DESCRIPTION,
+                MessageSqlLiteHelper.COLUMN_TYPE,
+                MessageSqlLiteHelper.COLUMN_SUBTYPE,
+                MessageSqlLiteHelper.COLUMN_CODE,
+                MessageSqlLiteHelper.COLUMN_FLAG1,
         };
 
 //        // How you want the results sorted in the resulting Cursor
@@ -131,10 +152,26 @@ public class SqlHandlerControl {
     }
 
     private MessageTemplate getMessageTemplate(Cursor cursor) {
-        MessageTemplate message = new MessageTemplate();
+        MessageTemplate message = new MessageTemplate(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_NAME)));
         message.setId(cursor.getInt(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_ID)));
-        message.setName(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_NAME)));
+        //message.setName(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_NAME)));
         message.setDescription(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_DESCRIPTION)));
+        try {
+            message.setType(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_TYPE)).charAt(0));
+        } catch (Exception e) {
+            Log.e(TAG, "Undefined message type.");
+        }
+
+
+        try {
+            message.setSubType(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_SUBTYPE)).charAt(0));
+        } catch (Exception e) {
+            Log.e(TAG, "Undefined message subtype.");
+        }
+
+        message.setCode(cursor.getInt(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_CODE)));
+        message.setCode(cursor.getInt(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_FLAG1)));
+
 
         return message;
     }

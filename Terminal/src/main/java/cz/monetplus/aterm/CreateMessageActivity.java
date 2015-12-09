@@ -32,7 +32,7 @@ public class CreateMessageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        messageTemplate = new MessageTemplate();
+        messageTemplate = new MessageTemplate("Undefined", 'F', 'O', 0, 0);
 
         SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
 
@@ -99,7 +99,9 @@ public class CreateMessageActivity extends AppCompatActivity {
                     etNewFid.getText().clear();
                     etNewValue.getText().clear();
                     etNewMessageName.getText().clear();
-                    messageTemplate.clear();
+//                    messageTemplate.clear();
+                    messageTemplate = new MessageTemplate("New message");
+                    adapter.clearList();
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(CreateMessageActivity.this, "Fill name of message.", Toast.LENGTH_SHORT).show();
