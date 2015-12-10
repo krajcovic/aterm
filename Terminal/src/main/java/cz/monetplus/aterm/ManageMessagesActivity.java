@@ -20,6 +20,10 @@ public class ManageMessagesActivity extends AppCompatActivity {
 
     private ListView lvMessageList;
 
+    private SqlHandlerControl sqlControl;
+
+    private MessageArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +32,13 @@ public class ManageMessagesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
+        sqlControl = new SqlHandlerControl(getApplicationContext());
 //        sqlControl.upgradeTables();
 
         lvMessageList = (ListView) findViewById(R.id.lvMessages);
 
         // use your custom layout
-        final MessageArrayAdapter<String> adapter = new MessageArrayAdapter<String>(this,
+        adapter = new MessageArrayAdapter<String>(this,
                 R.layout.message_item, sqlControl.fetchAllMessages());
         lvMessageList.setAdapter(adapter);
 
@@ -87,6 +91,9 @@ public class ManageMessagesActivity extends AppCompatActivity {
                 return true;
             case R.id.action_remove:
                 Toast.makeText(getApplicationContext(), "Remove position:" + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
+                sqlControl.remove(adapter.getItem(info.position));
+                adapter.remove(adapter.getItem(info.position));
+                adapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onContextItemSelected(item);

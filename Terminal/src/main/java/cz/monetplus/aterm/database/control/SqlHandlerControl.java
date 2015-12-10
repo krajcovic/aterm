@@ -200,6 +200,14 @@ public class SqlHandlerControl {
         return message;
     }
 
+    public void remove(MessageTemplate item) {
+        SQLiteDatabase db = messageSqlLiteHelper.getWritableDatabase();
+
+        db.delete(fidSqlLiteHelper.TABLE_NAME, fidSqlLiteHelper.COLUMN_MESSAGE_ID + "=" + item.getId(),null);
+        db.delete(messageSqlLiteHelper.TABLE_NAME, messageSqlLiteHelper.COLUMN_ID + "=" +item.getId(), null);
+
+    }
+
 //    public Cursor select() {
 //        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 //

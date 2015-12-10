@@ -115,10 +115,24 @@
         <item>When possible</item>
         <item>Never</item>
     </string-array>
+
+    <string-array name="pref_example_mnsp_encrypt_type_titles">
+        <item>Plain</item>
+        <item>Single DES</item>
+        <item>Tripple DES</item>
+    </string-array>
+
+
     <string-array name="pref_example_list_values">
         <item>1</item>
         <item>0</item>
         <item>-1</item>
+    </string-array>
+
+    <string-array name="pref_example_mnsp_encrypt_types">
+        <item>P</item>
+        <item>S</item>
+        <item>-T</item>
     </string-array>
 
     <!-- Example settings for Data & Sync -->
@@ -158,4 +172,10 @@
     <string name="menu_detail">Detail</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_remove">Remove</string>
+    <string name="pref_default_mnsp_terminal_name">TERM0001</string>
+    <string name="pref_title_mnsp_terminal_name">Terminal name</string>
+    <string name="pref_default_mnsp_sequence_number">1</string>
+    <string name="pref_title_mnsp_sequence_number">Sequence number</string>
+    <string name="pref_title_mnsp_encrypt_type">Encrypt type</string>
+    <string name="pref_header_mnsp">MNSP</string>
 </resources>
