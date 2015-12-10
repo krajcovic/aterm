@@ -19,31 +19,165 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/llFid"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:id="@+id/llName"
         android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Name:"
+            android:id="@+id/tvName"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etName"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:id="@+id/llDescription"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/llName">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Description:"
+            android:id="@+id/tvDescription"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etDescription"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:id="@+id/llTypes"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/llDescription">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Type/SubType:"
+            android:id="@+id/tvType"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etType"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etSubType"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:id="@+id/llCodeFlags"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/llTypes" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Code/Flags:"
+            android:id="@+id/textView"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etCode"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etFlags"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llFid"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/llCodeFlags">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tvFid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="FID:"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:text="FID/Value:"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical" />
 
             <EditText
                 android:id="@+id/etNewFid"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:lines="1" />
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/etNewValue"
+                android:lines="1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/butAddFid"
+                android:src="@drawable/abc_btn_check_to_on_mtrl_015"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
-        <LinearLayout
+  <!--      <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
@@ -62,22 +196,27 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:lines="1" />
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <LinearLayout
+<!--        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
+&lt;!&ndash;            <ImageButton
                 android:id="@+id/butAddFid"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Add" />
-        </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />&ndash;&gt;
+
+            &lt;!&ndash;<Button&ndash;&gt;
+                &lt;!&ndash;android:id="@+id/butAddFid"&ndash;&gt;
+                &lt;!&ndash;style="?android:attr/buttonStyleSmall"&ndash;&gt;
+                &lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;
+                &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                &lt;!&ndash;android:text="Add" />&ndash;&gt;
+        </LinearLayout>-->
 
     </LinearLayout>
 
@@ -86,7 +225,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/llFid"
-        android:layout_above="@+id/llMessage" />
+        android:layout_above="@+id/llSaveMessage" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -95,9 +234,9 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="true"
-        android:id="@+id/llMessage">
+        android:id="@+id/llSaveMessage">
 
-        <TextView
+        TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -106,7 +245,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical" />
 
-        <EditText
+        EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/etNewMessageName"

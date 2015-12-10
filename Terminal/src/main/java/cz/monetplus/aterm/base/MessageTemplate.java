@@ -45,17 +45,21 @@ public class MessageTemplate {
      */
     private Integer flag;
 
-    public MessageTemplate(String name) {
+    public MessageTemplate() {
         fidList = new ArrayList<Fid>();
-//        clear();
+
+        this.setName("New message");
+        this.setDescription("Description");
     }
 
 
     /**
      *
      */
-    public MessageTemplate(String name, Character type, Character subType, Integer code, Integer flag) {
+    public MessageTemplate(String name,String description, Character type, Character subType, Integer code, Integer flag) {
         fidList = new ArrayList<Fid>();
+        this.setName(name);
+        this.setDescription(description);
         this.setType(type);
         this.setSubType(subType);
         this.setCode(code);

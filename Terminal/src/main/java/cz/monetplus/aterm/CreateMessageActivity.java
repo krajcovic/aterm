@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,9 +22,9 @@ public class CreateMessageActivity extends AppCompatActivity {
 
     private MessageTemplate messageTemplate;
 
-    private EditText etNewFid;
-    private EditText etNewValue;
-    private EditText etNewMessageName;
+//    private EditText etNewFid;
+//    private EditText etNewValue;
+//    private EditText etNewMessageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +33,12 @@ public class CreateMessageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        messageTemplate = new MessageTemplate("Undefined", 'F', 'O', 0, 0);
+        messageTemplate = new MessageTemplate("Undefined", "Undefined", 'F', 'O', 0, 0);
 
         SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
 
-        etNewFid = (EditText) findViewById(R.id.etNewFid);
-        etNewValue = (EditText) findViewById(R.id.etNewValue);
-        etNewMessageName = (EditText) findViewById(R.id.etNewMessageName);
+        updateControls(messageTemplate);
 
-//        String[] values = new String[]{"Android", "iPhone", "WindowsMobile",
-//                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-//                "Linux", "OS/2"};
 
         ListView lvFidList = (ListView) findViewById(R.id.lvFids);
 
@@ -71,11 +67,15 @@ public class CreateMessageActivity extends AppCompatActivity {
             }
         });
 
-        Button butAddFid = (Button) findViewById(R.id.butAddFid);
+        ImageButton butAddFid = (ImageButton) findViewById(R.id.butAddFid);
         butAddFid.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+                EditText etNewFid = (EditText) findViewById(R.id.etNewFid);
+                EditText etNewValue = (EditText) findViewById(R.id.etNewValue);
+
                 messageTemplate.getFidList().add(new Fid(etNewFid.getText().toString(), etNewValue.getText().toString()));
                 adapter.notifyDataSetChanged();
 //                messageTemplate.getFidMap().put(etNewFid.getText().toString(), etNewValue.getText().toString());
@@ -87,7 +87,47 @@ public class CreateMessageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(etNewMessageName.getText().length() > 0) {
+                EditText etNewFid = (EditText) findViewById(R.id.etNewFid);
+                EditText etNewValue = (EditText) findViewById(R.id.etNewValue);
+                EditText etNewMessageName = (EditText) findViewById(R.id.etName);
+                EditText etDescription = (EditText) findViewById(R.id.etDescription);
+                EditText etType = (EditText) findViewById(R.id.etType);
+                EditText etSubType = (EditText) findViewById(R.id.etSubType);
+                EditText etCode = (EditText) findViewById(R.id.etCode);
+                EditText etFlags = (EditText) findViewById(R.id.etFlags);
+
+
+                if(etNewMessageName.getText().length() == 0) {
+                    Toast.makeText(CreateMessageActivity.this, "Fill name of message.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(etDescription.getText().length() == 0) {
+                    Toast.makeText(CreateMessageActivity.this, "Fill description of message.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(etType.getText().length() == 0) {
+                    Toast.makeText(CreateMessageActivity.this, "Fill type of message.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(etSubType.getText().length() == 0) {
+                    Toast.makeText(CreateMessageActivity.this, "Fill subtype of message.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(etCode.getText().length() == 0) {
+                    Toast.makeText(CreateMessageActivity.this, "Fill code of message.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(etFlags.getText().length() == 0) {
+                    Toast.makeText(CreateMessageActivity.this, "Fill Flags of message.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                     SqlHandlerControl sqlControl = new SqlHandlerControl(getApplicationContext());
                     messageTemplate.setName(etNewMessageName.getText().toString());
                     long messageId = sqlControl.insert(messageTemplate);
@@ -96,18 +136,34 @@ public class CreateMessageActivity extends AppCompatActivity {
                         sqlControl.insert(messageId, fid);
                     }
 
-                    etNewFid.getText().clear();
-                    etNewValue.getText().clear();
-                    etNewMessageName.getText().clear();
+//                    etNewFid.getText().clear();
+//                    etNewValue.getText().clear();
+//                    etNewMessageName.getText().clear();
 //                    messageTemplate.clear();
-                    messageTemplate = new MessageTemplate("New message");
+                    messageTemplate = new MessageTemplate("Undefined", "Undefined", 'F', 'O', 0, 0);
+                    updateControls(messageTemplate);
                     adapter.clearList();
                     adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(CreateMessageActivity.this, "Fill name of message.", Toast.LENGTH_SHORT).show();
-                }
             }
         });
+    }
+
+    private void updateControls(MessageTemplate mt) {
+        EditText etNewFid = (EditText) findViewById(R.id.etNewFid);
+        EditText etNewValue = (EditText) findViewById(R.id.etNewValue);
+        EditText etNewMessageName = (EditText) findViewById(R.id.etName);
+        EditText etDescription = (EditText) findViewById(R.id.etDescription);
+        EditText etType = (EditText) findViewById(R.id.etType);
+        EditText etSubType = (EditText) findViewById(R.id.etSubType);
+        EditText etCode = (EditText) findViewById(R.id.etCode);
+        EditText etFlags = (EditText) findViewById(R.id.etFlags);
+
+        etNewMessageName.setText(mt.getName());
+        etDescription.setText(mt.getDescription());
+        etType.setText(mt.getType().toString());
+        etSubType.setText(mt.getSubType().toString());
+        etCode.setText(mt.getCode().toString());
+        etFlags.setText(mt.getFlag().toString());
     }
 
 }

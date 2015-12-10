@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import cz.monetplus.aterm.base.Fid;
@@ -79,13 +82,29 @@ public class SqlHandlerControl {
         return newRowId;
     }
 
-    public void insertTestData() {
-        MessageTemplate messageTemplate = new MessageTemplate("Test", 'F', 'O', 0, 0);
-        messageTemplate.setDescription("Testovaci data.");
+    private void insertHandshake() {
+        MessageTemplate messageTemplate = new MessageTemplate("EMV Handshake", "Ověření dostupnosti autorizačního switche.", 'A', 'O', 95, 0);
+
+        long messageId = insert(messageTemplate);
+    }
+
+    private void insertFake() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String currentDateandTime = sdf.format(new Date());
+
+        MessageTemplate messageTemplate = new MessageTemplate("Test", "Testovaci data: " + currentDateandTime, 'F', 'O', 0, 0);
+        //messageTemplate.setDescription("Testovaci data.");
 
         long messageId = insert(messageTemplate);
         insert(messageId, new Fid("A", "1"));
         insert(messageId, new Fid("B", "2"));
+    }
+
+    public void insertTestData() {
+
+        insertHandshake();
+        insertFake();
+
     }
 
     public void upgradeTables() {
@@ -133,8 +152,9 @@ public class SqlHandlerControl {
 //                sortOrder                                 // The sort order
 //        );
 
-        Cursor cursor = db.rawQuery("SELECT " + MessageSqlLiteHelper.COLUMN_ID + ", "
-                + MessageSqlLiteHelper.COLUMN_NAME + ", " + MessageSqlLiteHelper.COLUMN_DESCRIPTION + " FROM " + MessageSqlLiteHelper.TABLE_NAME, null);
+//        Cursor cursor = db.rawQuery("SELECT " + MessageSqlLiteHelper.COLUMN_ID + ", "
+//                + MessageSqlLiteHelper.COLUMN_NAME + ", " + MessageSqlLiteHelper.COLUMN_DESCRIPTION + " FROM " + MessageSqlLiteHelper.TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + MessageSqlLiteHelper.TABLE_NAME, null);
 
         List<MessageTemplate> listMessages = new ArrayList<>();
 
@@ -152,9 +172,11 @@ public class SqlHandlerControl {
     }
 
     private MessageTemplate getMessageTemplate(Cursor cursor) {
-        MessageTemplate message = new MessageTemplate(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_NAME)));
+        MessageTemplate message = new MessageTemplate();
         message.setId(cursor.getInt(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_ID)));
-        //message.setName(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_NAME)));
+
+        message.setName(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_NAME)));
+
         message.setDescription(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_DESCRIPTION)));
         try {
             message.setType(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_TYPE)).charAt(0));
