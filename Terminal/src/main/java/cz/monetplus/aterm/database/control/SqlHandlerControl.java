@@ -103,7 +103,9 @@ public class SqlHandlerControl {
     public void insertTestData() {
 
         insertHandshake();
-        insertFake();
+        for(int i = 20; i != 0; i--) {
+            insertFake();
+        }
 
     }
 
