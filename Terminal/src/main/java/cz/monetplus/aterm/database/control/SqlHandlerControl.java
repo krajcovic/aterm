@@ -14,8 +14,10 @@ import java.util.List;
 
 import cz.monetplus.aterm.base.Fid;
 import cz.monetplus.aterm.base.MessageTemplate;
+import cz.monetplus.aterm.base.Server;
 import cz.monetplus.aterm.database.FidSqlLiteHelper;
 import cz.monetplus.aterm.database.MessageSqlLiteHelper;
+import cz.monetplus.aterm.database.ServerSqlLiteHelper;
 
 /**
  * Created by krajcovic on 11/5/15.
@@ -26,14 +28,27 @@ public class SqlHandlerControl {
 
     private final static String DATABASE_NAME = "aterm.db";
 
-    FidSqlLiteHelper fidSqlLiteHelper;
-    MessageSqlLiteHelper messageSqlLiteHelper;
+    private FidSqlLiteHelper fidSqlLiteHelper;
+    private MessageSqlLiteHelper messageSqlLiteHelper;
+    private ServerSqlLiteHelper serverSqlLiteHelper;
 
+    /**
+     * Constructor.
+     *
+     * @param context
+     */
     public SqlHandlerControl(Context context) {
         fidSqlLiteHelper = new FidSqlLiteHelper(context, DATABASE_NAME);
         messageSqlLiteHelper = new MessageSqlLiteHelper(context, DATABASE_NAME);
+        serverSqlLiteHelper = new ServerSqlLiteHelper(context, DATABASE_NAME);
     }
 
+    /**
+     * Insert message template.
+     *
+     * @param messageTemplate
+     * @return
+     */
     public long insert(MessageTemplate messageTemplate) {
         // Gets the data repository in write mode
         SQLiteDatabase db = messageSqlLiteHelper.getWritableDatabase();
@@ -49,17 +64,24 @@ public class SqlHandlerControl {
         // values.put(FeedEntry.COLUMN_NAME_CONTENT, content);
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId;
-        newRowId = db.insert(
+        long newRowId = db.insert(
                 MessageSqlLiteHelper.TABLE_NAME,
                 null,
                 values);
+        messageTemplate.setId(newRowId);
 
         db.close();
 
         return newRowId;
     }
 
+    /**
+     * Insert new FID.
+     *
+     * @param messageId
+     * @param fid
+     * @return
+     */
     public long insert(long messageId, Fid fid) {
         // Gets the data repository in write mode
         SQLiteDatabase db = fidSqlLiteHelper.getWritableDatabase();
@@ -71,8 +93,7 @@ public class SqlHandlerControl {
         values.put(FidSqlLiteHelper.COLUMN_VALUE, fid.getValue());
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId;
-        newRowId = db.insert(
+        long newRowId = db.insert(
                 FidSqlLiteHelper.TABLE_NAME,
                 null,
                 values);
@@ -82,12 +103,40 @@ public class SqlHandlerControl {
         return newRowId;
     }
 
+    public long insert(Server server) {
+        SQLiteDatabase db = serverSqlLiteHelper.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+
+        values.put(ServerSqlLiteHelper.COLUMN_HOST, server.getHost());
+        values.put(ServerSqlLiteHelper.COLUMN_PORT, server.getPort());
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId = db.insert(
+                ServerSqlLiteHelper.TABLE_NAME,
+                null,
+                values);
+
+        server.setId(newRowId);
+
+        db.close();
+
+        return newRowId;
+    }
+
+    /**
+     * Testing data. Create handshake.
+     */
     private void insertHandshake() {
         MessageTemplate messageTemplate = new MessageTemplate("EMV Handshake", "Ověření dostupnosti autorizačního switche.", 'A', 'O', 95, 0);
 
         long messageId = insert(messageTemplate);
     }
 
+    /**
+     * Insert fake data.
+     */
     private void insertFake() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String currentDateandTime = sdf.format(new Date());
@@ -103,28 +152,39 @@ public class SqlHandlerControl {
     public void insertTestData() {
 
         insertHandshake();
-        for(int i = 20; i != 0; i--) {
-            insertFake();
-        }
+
+//        for(int i = 20; i != 0; i--) {
+//            insertFake();
+//        }
 
     }
 
     public void upgradeTables() {
         // Gets the data repository in write mode
         SQLiteDatabase db = messageSqlLiteHelper.getWritableDatabase();
-
         messageSqlLiteHelper.onUpgrade(db, 1, 1);
+
+        db = fidSqlLiteHelper.getWritableDatabase();
         fidSqlLiteHelper.onUpgrade(db, 1, 1);
+
+        db = serverSqlLiteHelper.getWritableDatabase();
+        serverSqlLiteHelper.onUpgrade(db, 1, 1);
+
     }
 
-    public void dropTables() {
-        // Gets the data repository in write mode
-        SQLiteDatabase db = messageSqlLiteHelper.getWritableDatabase();
+//    public void dropTables() {
+//        // Gets the data repository in write mode
+//        SQLiteDatabase db = messageSqlLiteHelper.getWritableDatabase();
+//
+//        messageSqlLiteHelper.dropTable(db);
+//        fidSqlLiteHelper.dropTable(db);
+//
+//    }
 
-        messageSqlLiteHelper.dropTable(db);
-        fidSqlLiteHelper.dropTable(db);
-    }
-
+    /**
+     *
+     * @return
+     */
     public List<MessageTemplate> fetchAllMessages() {
         SQLiteDatabase db = fidSqlLiteHelper.getReadableDatabase();
 
@@ -173,9 +233,54 @@ public class SqlHandlerControl {
         return listMessages;
     }
 
+    /**
+     *
+     * @return
+     */
+    public List<Server> fetchAllServers() {
+        SQLiteDatabase db = fidSqlLiteHelper.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                MessageSqlLiteHelper.COLUMN_ID,
+                MessageSqlLiteHelper.COLUMN_NAME,
+                MessageSqlLiteHelper.COLUMN_DESCRIPTION,
+                MessageSqlLiteHelper.COLUMN_TYPE,
+                MessageSqlLiteHelper.COLUMN_SUBTYPE,
+                MessageSqlLiteHelper.COLUMN_CODE,
+                MessageSqlLiteHelper.COLUMN_FLAG1,
+        };
+
+//        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                ServerSqlLiteHelper.COLUMN_HOST + " ASC";
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ServerSqlLiteHelper.TABLE_NAME, null);
+
+        List<Server> servers = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                servers.add(this.getServer(cursor));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return servers;
+    }
+
+    /**
+     *
+     * @param cursor
+     * @return
+     */
     private MessageTemplate getMessageTemplate(Cursor cursor) {
         MessageTemplate message = new MessageTemplate();
-        message.setId(cursor.getInt(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_ID)));
+        message.setId(cursor.getLong(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_ID)));
 
         message.setName(cursor.getString(cursor.getColumnIndex(MessageSqlLiteHelper.COLUMN_NAME)));
 
@@ -200,13 +305,37 @@ public class SqlHandlerControl {
         return message;
     }
 
-    public void remove(MessageTemplate item) {
-        SQLiteDatabase db = messageSqlLiteHelper.getWritableDatabase();
+    private Server getServer(Cursor cursor) {
+        Server message = new Server();
+        message.setId(cursor.getLong(cursor.getColumnIndex(ServerSqlLiteHelper.COLUMN_ID)));
+        message.setHost(cursor.getString(cursor.getColumnIndex(ServerSqlLiteHelper.COLUMN_HOST)));
+        message.setPort(cursor.getInt(cursor.getColumnIndex(ServerSqlLiteHelper.COLUMN_PORT)));
+        return message;
+    }
 
-        db.delete(fidSqlLiteHelper.TABLE_NAME, fidSqlLiteHelper.COLUMN_MESSAGE_ID + "=" + item.getId(),null);
-        db.delete(messageSqlLiteHelper.TABLE_NAME, messageSqlLiteHelper.COLUMN_ID + "=" +item.getId(), null);
+    /**
+     *
+     * @param item
+     */
+    public void remove(MessageTemplate item) {
+        SQLiteDatabase db = fidSqlLiteHelper.getWritableDatabase();
+        db.delete(fidSqlLiteHelper.TABLE_NAME, fidSqlLiteHelper.COLUMN_MESSAGE_ID + "=" + item.getId(), null);
+
+        db = messageSqlLiteHelper.getWritableDatabase();
+        db.delete(messageSqlLiteHelper.TABLE_NAME, messageSqlLiteHelper.COLUMN_ID + "=" + item.getId(), null);
 
     }
+
+    /**
+     *
+     * @param item
+     */
+    public void remove(Server item) {
+        SQLiteDatabase db = serverSqlLiteHelper.getWritableDatabase();
+
+        db.delete(serverSqlLiteHelper.TABLE_NAME, serverSqlLiteHelper.COLUMN_ID + "=" + item.getId(), null);
+    }
+
 
 //    public Cursor select() {
 //        SQLiteDatabase db = mDbHelper.getReadableDatabase();

@@ -4,7 +4,7 @@
         android:capitalize="characters"
         android:defaultValue="@string/pref_default_mnsp_terminal_name"
         android:inputType="textCapWords"
-        android:key="example_text"
+        android:key="mnsp_terminal_name"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -14,17 +14,17 @@
         android:capitalize="none"
         android:defaultValue="@string/pref_default_mnsp_sequence_number"
         android:inputType="textCapWords"
-        android:key="example_text"
+        android:key="mnsp_sequence_number"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_mnsp_sequence_number" />
 
     <ListPreference
-        android:defaultValue="-1"
+        android:defaultValue="P"
         android:entries="@array/pref_example_mnsp_encrypt_type_titles"
         android:entryValues="@array/pref_example_mnsp_encrypt_types"
-        android:key="example_list"
+        android:key="mnsp_encrypt_type"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_title_mnsp_encrypt_type" />

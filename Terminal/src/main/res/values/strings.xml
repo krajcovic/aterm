@@ -132,7 +132,7 @@
     <string-array name="pref_example_mnsp_encrypt_types">
         <item>P</item>
         <item>S</item>
-        <item>-T</item>
+        <item>T</item>
     </string-array>
 
     <!-- Example settings for Data & Sync -->
@@ -173,9 +173,31 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_remove">Remove</string>
     <string name="pref_default_mnsp_terminal_name">TERM0001</string>
-    <string name="pref_title_mnsp_terminal_name">Terminal name</string>
+    <string name="pref_title_mnsp_terminal_name">Terminal Name</string>
     <string name="pref_default_mnsp_sequence_number">1</string>
-    <string name="pref_title_mnsp_sequence_number">Sequence number</string>
-    <string name="pref_title_mnsp_encrypt_type">Encrypt type</string>
+    <string name="pref_title_mnsp_sequence_number">Sequence Number</string>
+    <string name="pref_title_mnsp_encrypt_type">Encrypt Type</string>
     <string name="pref_header_mnsp">MNSP</string>
+    <string name="pref_default_spdh_device_type">9.</string>
+    <string name="pref_title_spdh_device_type">Device Type</string>
+    <string name="pref_header_spdh">SPDH</string>
+    <string name="pref_default_spdh_transmission_number">0</string>
+    <string name="pref_title_spdh_transmission_number">Transmission Number</string>
+    <string name="pref_default_spdh_terminal_id">TERMINAL00000001</string>
+    <string name="pref_title_spdh_terminal_id">Terminal ID</string>
+    <string name="pref_default_spdh_employee_id" />
+    <string name="pref_title_spdh_employee_id">Employee ID</string>
+    <string name="title_activity_ad_support_me">AdSupportMeActivity</string>
+
+    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
+    <string name="start_level">Level 1</string>
+    <string name="next_level">Next Level</string>
+    <!-- -
+        This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
+        For more information, see https://support.google.com/admob/answer/3052638
+    <!- -->
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="menu_send">Send</string>
+    <string name="pref_header_servers">Servers</string>
+    <string name="title_activity_servers_manager">ServersManagerActivity</string>
 </resources>

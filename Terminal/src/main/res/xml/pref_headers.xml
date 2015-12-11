@@ -2,24 +2,41 @@
 
     <!-- These settings headers are only used on tablets. -->
 
-    <header
+    <!--<header
         android:fragment="cz.monetplus.aterm.SettingsActivity$GeneralPreferenceFragment"
         android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_header_general" />
+        android:title="@string/pref_header_general" />-->
 
-    <header
+    <!--<header
         android:fragment="cz.monetplus.aterm.SettingsActivity$NotificationPreferenceFragment"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/pref_header_notifications" />
+        android:title="@string/pref_header_notifications" />-->
 
-    <header
+    <!--<header
         android:fragment="cz.monetplus.aterm.SettingsActivity$DataSyncPreferenceFragment"
         android:icon="@drawable/ic_sync_black_24dp"
-        android:title="@string/pref_header_data_sync" />
+        android:title="@string/pref_header_data_sync" />-->
 
     <header
         android:fragment="cz.monetplus.aterm.SettingsActivity$MnspPreferenceFragment"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/pref_header_mnsp" />
+
+    <header
+        android:fragment="cz.monetplus.aterm.SettingsActivity$SpdhPreferenceFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_header_spdh" />
+
+    <header
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="@string/pref_header_servers" >
+        <intent android:targetPackage="cz.monetplus.aterm"
+            android:targetClass="cz.monetplus.aterm.ServersManagerActivity" />
+    </header>
+
+<!--    <header
+        android:fragment="cz.monetplus.aterm.SettingsActivity$ServersPreferenceFragment"
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="@string/pref_header_servers" />-->
 
 </preference-headers>

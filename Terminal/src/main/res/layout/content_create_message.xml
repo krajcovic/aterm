@@ -8,7 +8,7 @@
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_create_menu"
+    tools:showIn="@layout/activity_create_message"
     tools:context="cz.monetplus.aterm.CreateMessageActivity">
 
 

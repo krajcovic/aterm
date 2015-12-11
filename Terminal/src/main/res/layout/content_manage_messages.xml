@@ -11,7 +11,7 @@
     android:paddingTop="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="cz.monetplus.aterm.ManageMessagesActivity"
-    tools:showIn="@layout/activity_create_menu">
+    tools:showIn="@layout/activity_manage_messages">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

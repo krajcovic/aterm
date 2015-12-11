@@ -1,11 +1,11 @@
 package cz.monetplus.aterm;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import cz.monetplus.aterm.adapters.MessageArrayAdapter;
+import cz.monetplus.aterm.base.MessageTemplate;
 import cz.monetplus.aterm.database.control.SqlHandlerControl;
 
 public class ManageMessagesActivity extends AppCompatActivity {
@@ -65,6 +66,12 @@ public class ManageMessagesActivity extends AppCompatActivity {
 //        });
 
         registerForContextMenu(lvMessageList);
+        lvMessageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.showContextMenu();
+            }
+        });
     }
 
     @Override
@@ -82,6 +89,10 @@ public class ManageMessagesActivity extends AppCompatActivity {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
+            case R.id.action_send:
+                //editNote(info.id);
+                Toast.makeText(getApplicationContext(), "Send position: " + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.action_detail:
                 //editNote(info.id);
                 Toast.makeText(getApplicationContext(), "Action position: " + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
@@ -90,13 +101,46 @@ public class ManageMessagesActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Edit position:" + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_remove:
-                Toast.makeText(getApplicationContext(), "Remove position:" + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
-                sqlControl.remove(adapter.getItem(info.position));
-                adapter.remove(adapter.getItem(info.position));
-                adapter.notifyDataSetChanged();
+                removeMessage(info);
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+
+    }
+
+    private void removeMessage(AdapterView.AdapterContextMenuInfo info) {
+        MessageTemplate messageTemplate = adapter.getItem(info.position);
+//                Toast.makeText(getApplicationContext(), "Removing :" + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Removing :" + messageTemplate.getName(), Toast.LENGTH_SHORT).show();
+        sqlControl.remove(messageTemplate);
+        adapter.remove(messageTemplate);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu_default, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings: {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.help: {
+                Intent intent = new Intent(getApplicationContext(), AdSupportMeActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
     }

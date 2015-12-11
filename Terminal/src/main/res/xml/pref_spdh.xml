@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:capitalize="characters"
+        android:defaultValue="@string/pref_default_spdh_device_type"
+        android:inputType="textCapWords"
+        android:key="spdh_device_type"
+        android:maxLines="1"
+        android:maxLength="2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_spdh_device_type" />
+
+
+    <EditTextPreference
+        android:numeric="integer"
+        android:defaultValue="@string/pref_default_spdh_transmission_number"
+        android:inputType="textCapWords"
+        android:key="spdh_transmission_number"
+        android:maxLines="1"
+        android:maxLength="2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_spdh_transmission_number" />
+
+    <EditTextPreference
+        android:capitalize="characters"
+        android:defaultValue="@string/pref_default_spdh_terminal_id"
+        android:inputType="textCapWords"
+        android:key="spdh_terminal_id"
+        android:maxLines="1"
+        android:minLines="16"
+        android:maxLength="16"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_spdh_terminal_id" />
+
+    <EditTextPreference
+        android:capitalize="characters"
+        android:defaultValue="@string/pref_default_spdh_employee_id"
+        android:inputType="textCapWords"
+        android:key="spdh_employee_id"
+        android:maxLines="1"
+        android:minLines="6"
+        android:maxLength="6"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_spdh_employee_id" />
+
+</PreferenceScreen>
