@@ -16,6 +16,7 @@ import android.widget.Toast;
 import cz.monetplus.aterm.adapters.MessageArrayAdapter;
 import cz.monetplus.aterm.base.MessageTemplate;
 import cz.monetplus.aterm.database.control.SqlHandlerControl;
+import cz.monetplus.aterm.protocol.MnspFactory;
 
 public class ManageMessagesActivity extends AppCompatActivity {
 
@@ -88,10 +89,14 @@ public class ManageMessagesActivity extends AppCompatActivity {
 //        return super.onContextItemSelected(item);
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        MessageTemplate messageTemplate = adapter.getItem(info.position);
         switch (item.getItemId()) {
             case R.id.action_send:
                 //editNote(info.id);
-                Toast.makeText(getApplicationContext(), "Send position: " + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Send position: " + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), SendActivity.class);
+                intent.putExtra("mnsp_packet", MnspFactory.create(messageTemplate));
+                startActivity(intent);
                 return true;
             case R.id.action_detail:
                 //editNote(info.id);
@@ -101,7 +106,7 @@ public class ManageMessagesActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Edit position:" + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_remove:
-                removeMessage(info);
+                removeMessage(messageTemplate);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -109,8 +114,8 @@ public class ManageMessagesActivity extends AppCompatActivity {
 
     }
 
-    private void removeMessage(AdapterView.AdapterContextMenuInfo info) {
-        MessageTemplate messageTemplate = adapter.getItem(info.position);
+    private void removeMessage(MessageTemplate messageTemplate) {
+//        MessageTemplate messageTemplate = adapter.getItem(info.position);
 //                Toast.makeText(getApplicationContext(), "Removing :" + info.id + "-" + info.position, Toast.LENGTH_SHORT).show();
         Toast.makeText(getApplicationContext(), "Removing :" + messageTemplate.getName(), Toast.LENGTH_SHORT).show();
         sqlControl.remove(messageTemplate);

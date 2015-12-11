@@ -5,6 +5,8 @@
         android:defaultValue="@string/pref_default_mnsp_terminal_name"
         android:inputType="textCapWords"
         android:key="mnsp_terminal_name"
+        android:minLength="10"
+        android:maxLength="10"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -16,12 +18,13 @@
         android:inputType="textCapWords"
         android:key="mnsp_sequence_number"
         android:maxLines="1"
+        android:maxLength="8"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_mnsp_sequence_number" />
 
     <ListPreference
-        android:defaultValue="P"
+        android:defaultValue="@string/pref_default_mnsp_encrypt_types"
         android:entries="@array/pref_example_mnsp_encrypt_type_titles"
         android:entryValues="@array/pref_example_mnsp_encrypt_types"
         android:key="mnsp_encrypt_type"

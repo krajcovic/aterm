@@ -200,4 +200,6 @@
     <string name="menu_send">Send</string>
     <string name="pref_header_servers">Servers</string>
     <string name="title_activity_servers_manager">ServersManagerActivity</string>
+    <string name="title_activity_send">SendActivity</string>
+    <string name="pref_default_mnsp_encrypt_types">P</string>
 </resources>

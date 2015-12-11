@@ -67,6 +67,10 @@
         <activity
             android:name=".ServersManagerActivity"
             android:label="@string/title_activity_servers_manager"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SendActivity"
+            android:label="@string/title_activity_send"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
